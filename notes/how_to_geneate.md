@@ -1,0 +1,1 @@
+To generate files you need to install [Quarto](https://quarto.org/docs/get-started/). Installation is specific to device.
