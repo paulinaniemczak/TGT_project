@@ -35,11 +35,9 @@ Rozwiązaniem tego problemu jest włączenie wielu niezależnych par $\text{HG}/
 
 3. **Konwersja dwusiarczynowa (bisulfite conversion)**
 
-   - Kluczowy krok kodujący metylację chemicznie, przed odczytem na macierzy:
+   - niemetylowana cytozyna $\rightarrow$ uracyl $\rightarrow$ (po PCR) tymina,
 
-     - niemetylowana cytozyna $\rightarrow$ uracyl $\rightarrow$ (po PCR) tymina,
-
-     - metylowana 5mC pozostaje cytozyną.
+   - metylowana 5mC pozostaje cytozyną.
 
    - Dzięki temu stan metylacji zamienia się w różnicę sekwencji C/T, którą odczytuje mikromacierz. Stosować zestaw o wysokiej wydajności konwersji ($\geq; \sim 99\%$); zalecane powtórzenia techniczne do oceny powtarzalności.
 
