@@ -11,24 +11,45 @@ Rozwiązaniem tego problemu jest włączenie wielu niezależnych par $\text{HG}/
 
 #### Procedura
 
-##### Metodologia do DNA z populacji dzisiejszych
+##### Część I - metodologia do badania DNA z populacji dzisiejszych
 
 1. **Pozyskanie próbek**
-   - **Tkanka**: krew obwodowa (DNA z leukocytów) — standard w badaniach metylacji populacyjnej i źródło danych referencyjnych [@fagny2015epigenomic]. Uwaga: aDNA rekonstruujemy z kości — różnicę tkankową trzeba korygować.
-   - **Liczebność**: dążyć do $\ge \sim 50\text{–}100$ osób na populację (rząd wielkości jak w literaturze), zbalansowane między parą HG/AGR.
-   - **Kryteria włączenia**: dorośli, znany wiek i płeć, brak bliskiego pokrewieństwa, bez ostrej infekcji w chwili poboru.
-   - **Etyka**: świadoma zgoda i zasady suwerenności danych społeczności (CARE/OCAP) — warunek konieczny.
-   - **Metadane**: wiek, płeć, region, dieta/tryb życia — potrzebne jako współzmienne w modelu DMS.
+
+   - **Tkanka**: materiał kostny pozyskany w trakcie przeprowadzania procedur medycznych
+   - **Liczebność**: 1-2% osób na populację
+   - **Kryteria włączenia**: dorośli, znany wiek i płeć, brak bliskiego pokrewieństwa, bez ostrej infekcji w chwili poboru
+   - **Etyka**: świadoma zgoda i zasady suwerenności danych społeczności (CARE/OCAP) — warunek konieczny
+   - **Metadane**: wiek, płeć, region, dieta/tryb życia — potrzebne jako współzmienne w modelu DMS
+
 
 2. **Ekstrakcja i kontrola jakości DNA**
-   - Izolacja genomowego DNA standardowym protokołem (np. kolumienki krzemionkowe).
-   - Kontrola ilości (fluorymetria, np. Qubit) i integralności (elektroforeza); minimalny wkład zwykle $\ge 250\text{–}500$ ng na próbkę.
+
+   - Izolacja genomowego DNA protokołem mogącym być również zastosowanym do izolacji DNA antycznego (kolumienki krzemionkowe z buforem zawierającym EDTA i proteinazę K [@rohland2007extraction])
+   - Kontrola ilości (fluorymetria) i integralności (elektroforeza); minimalny wkład zwykle $\ge 250\text{–}500$ ng na próbkę
+
 
 3. **Konwersja dwusiarczynowa (bisulfite conversion)**
-   - Kluczowy krok kodujący metylację chemicznie, przed odczytem na macierzy:
-     - niemetylowana cytozyna $\rightarrow$ uracyl $\rightarrow$ (po PCR) tymina,
-     - metylowana 5mC pozostaje cytozyną.
-   - Dzięki temu stan metylacji zamienia się w różnicę sekwencji C/T, którą odczytuje mikromacierz. Stosować zestaw o wysokiej wydajności konwersji ($\geq; \sim 99\%$); zalecane powtórzenia techniczne do oceny powtarzalności.
+
+   - niemetylowana cytozyna $\rightarrow$ uracyl $\rightarrow$ (po PCR) tymina
+   - metylowana 5mC pozostaje cytozyną
+   - Dzięki temu stan metylacji zamienia się w różnicę sekwencji C/T. Stosować zestaw o wysokiej wydajności konwersji ($\geq; \sim 99\%$); zalecane powtórzenia techniczne do oceny powtarzalności.
+
+
+4. **Analiza danych o metylacji DNA**
+
+   Próbki poddamy hybrydyzacji przy użyciu mikromacierzy HumanMethylation450, dla próbek i powtórzeń technicznych. Następnie wyeliminujemy sondy, które mogą ulec hybrydyzacji krzyżowej (te znajdujące się na chromosomach X i Y oraz sondy zawierające SNP lub powiązane z CpG zawierającymi SNP, których częstotliwość przekracza 1% w co najmniej jednej z badanych populacji). Po tym procesie filtrowania poziom metylacji zostanie obliczony na podstawie surowych danych, korzystając z pakietu R Bioconductor `lumi`. Należy wybrać, czy lepiej nada się wartość M, czy beta, sprawdzając, która z nich da lepszą czułość [@du2010comparison]. Wybrana wartość zostanie skorygowana pod kątem tła i odchylenia za pomocą `lumi` i znormalizowana kwantylowo. Różnice techniczne zostaną skorygowane przez normalizację wybranej wartości w ramach macierzy przy użyciu podzbiorów kwantylowych za pomocą pakietu R Bioconductor `minifi60`. Analizą PCA wykryjemy batch-effect, do skorygowania czego wykorzystamy funkcję `ComBat` z pakietu sva bioconductor.
+
+
+5. **Określenie miejsc o zróżnicowanym stopniu metylacji - DMS**
+
+   Określenie tych miejsc między populacjami zostanie zmodyfikowane statystycznie poprzez dopasowanie modelu regresji liniowej dla każdego miejsca (wartości M: populacja x płeć x wiek x proporcje typów komórek x błąd) oraz zastosujemy wygładzenie empiryczne Bayesa do odchylenia standardowego (przy użyciu pakietu `limma` w bibliotece R bioconductor). Miejsca o skorygowanej wartości P poniżej 0,01 według Benjamini i Hochberga uznaje się za różnicowo metylowane. 
+
+   Aby zdefiniować amplitudę DMS, zastosujemy następujące kryteria: skorygowaną wartość P poniżej 0,01 według Benjamini i Hochberga oraz różnicę w średnim poziomie metylacji między dwiema populacjami wynoszącą ponad 2, 5 lub 10%. W tego typu analizie poziom metylacji określa się jako stosunek intensywności sygnału z sondy metylowanej do intensywności ogólnej, czyli wartość beta. Wyodrębnimy nakładające się fragmenty między różnymi zestawami DMS i obliczymy wartości P mierzące prawdopodobieństwo uzyskania tych nakładających się fragmentów przez przypadek, stosując ponowne próbkowanie. Poziomy metylacji DNA w docelowych miejscach są silnie skorelowane w obrębie regionów n o określonej wielkości (około 2000 pz). W związku z tym dla każdej listy DMS losowo pobierzemy ponownie taką samą liczbę spośród wszystkich miejsc, biorąc pod uwagę odległość między DMS.
+
+
+6. **Funkcje biologiczne genów o zróżnicowanym stopniu metylacji**
+
+   Wyodrębnimy wszystkie geny o zróżnicowanym stopniu metylacji, czyli geny posiadające co najmniej jeden DMS. Do tego celu wykorzystamy pakiet `goseq` z biblioteki R Bioconductor oraz do przeprowadzenia analizy nadreprezentacji kategorii ontologii genów wśród genów o zróżnicowanym stopniu metylacji. Liczbę sond odpowiadających każdemu genowi wprowadzimy do funkcji ważenia prawdopodobieństwa pakietu `goseq`. Ponieważ nie wszystkie geny genomu są reprezentowane na chipie Illumina HumanMethy450 BeadChip, zestaw referencyjny w analizie nadreprezentacji będzie składał się z genów, dla których dostępne są dane. Zbiory DMS będą istotnie wzbogacone w danej kategorii, jeśli wartość P skorygowana o FDR wyniesie maksymalnie 0,05.
 
 > #TODO - Paulina - dopisanie dokładne metodologi do konca (metodologia tych badań które byly wykorzystane do autochtonów afrykańskich)z
 > #TODO - Paulina to można rozibć na pojedyncze fragmenty:
@@ -38,22 +59,11 @@ Rozwiązaniem tego problemu jest włączenie wielu niezależnych par $\text{HG}/
 > ##### Identyfikacja miejsc różnicowo zmetylowanych (DMS)
 > ##### Analiza funkcjonalna i ontologia genów -->
 
-##### Konwersja dwusiarczynowa (Bisulfite Conversion)
 
-Chemiczne znakowanie stanu metylacji przed analizą mikromacierzową realizowane jest poprzez konwersję w oparciu o następujący schemat reakcji:
-- Niemetylowana cytozyna ($C$) ulega deaminacji do uracylu ($U$), a następnie podczas matrycowej reakcji $\text{PCR}$ ulega substytucji w tyminę ($T$).
-- Metylowana cytozyna ($5\mathrm{mC}$) pozostaje odporna na działanie wodorosiarczynu, zachowując swoją tożsamość jako cytozyna ($C$).
+##### Część II - metodologia do badania DNA z populacji antycznych
 
-Wydajność konwersji chemicznej musi wynosić $> 99\%$. W celu empirycznej weryfikacji powtarzalności technicznej procedury stosuje się replikaty techniczne.
+**Kontrola jakości**
 
-##### Analiza danych o metylacji DNA
+   Dla porównania skuteczności, zostanie dodatkowo przeprowadzona analiza wykorzystująca sztucznie zanieczyszczone i pofragmentowane sekwencje współczesne, symulujące aDNA. 
 
-Próbki należy poddać hybrydyzacji przy użyciu mikromacierzy HumanMethylation450, dla próbek i powtórzeń technicznych. Następnie wyeliminować sondy, które mogą ulec hybrydyzacji krzyżowej, te znajdujące się na chromosomach X i Y oraz sondy zawierające SNP lub powiązane z CpG zawierającymi SNP, których częstotliwość przekracza 1% w co najmniej jednej z badanych populacji. Po tym procesie filtrowania poziom metylacji można obliczyć na podstawie surowych danych, korzystając na przykład z pakietu R Bioconductor `lumi`. Należy wybrać, czy lepiej nada się wartość M, czy beta, sprawdzając, która z nich da lepszą czułość [@du2010comparison]. Wybraną wartość należy skorygować pod kątem tła i odchylenia za pomocą np. `lumi` i znormalizować kwantylowo. Różnice techniczne można skorygować normalizując wybraną wartość w ramach macierzy przy użyciu podzbiorów kwantylowych za pomocą pakietu R Bioconductor `minfi`. Analizą PCA można wykryć batch-effect, do skorygowania czego można wykorzystać funkcję `ComBat` z pakietu `sva` bioconductor.
-
-##### Określenie miejsc o zróżnicowanym stopniu metylacji - DMS
-
-Określenie tych miejsc między populacjami należy zmodyfikować statystycznie poprzez dopasowanie modelu regresji liniowej dla każdego miejsca (wartości M: populacja x płeć x wiek x proporcje typów komórek x błąd) oraz zastosować wygładzenie empiryczne Bayesa do odchylenia standardowego przy użyciu np. pakietu `limma` w bibliotece R bioconductor. Miejsca o skorygowanej wartości P poniżej 0,01 według Benjamini i Hochberga uznaje się za różnicowo metylowane. Aby zdefiniować amplitudę DMS, stosuje się różne kryteria: skorygowaną wartość P poniżej 0,01 według Benjamini i Hochberga oraz różnicę w średnim poziomie metylacji między dwiema populacjami wynoszącą ponad 2, 5 lub 10%. W tego typu analizie poziom metylacji określa się jako stosunek intensywności sygnału z sondy metylowanej do intensywności ogólnej, czyli wartość beta. Należy wyodrębnić nakładające się fragmenty między różnymi zestawami DMS i obliczyć wartości P mierzące prawdopodobieństwo uzyskania tych nakładających się fragmentów przez przypadek, stosując ponowne próbkowanie. Poziomy metylacji DNA in docelowych miejscach są silnie skorelowane w obrębie regionów n o określonej wielkości (około 2000 pz). W związku z tym dla każdej listy DMS losowo pobiera się ponownie taką samą liczbę miejsc spośród wszystkich miejsc, biorąc pod uwagę odległość między DMS.
-
-##### Funkcje biologiczne genów o zróżnicowanym stopniu metylacji
-
-Należy wyodrębnić wszystkie geny o zróżnicowanym stopniu metylacji, czyli geny posiadające co najmniej jeden DMS. Do tego celu można wykorzystać pakiet `goseq` z biblioteki R Bioconductor do przeprowadzenia analizy nadreprezentacji kategorii ontologii genów wśród genów o zróżnicowanym stopniu metylacji. Liczbę sond odpowiadających jednemu genowi wprowadza się do funkcji ważenia prawdopodobieństwa pakietu `goseq`. Ponieważ nie wszystkie geny genomu są reprezentowane na chipie Illumina HumanMethylation450 BeadChip, zestaw referencyjny w analizie nadreprezentacji będzie składał się z genów, dla których dostępne są dane. Zbiory DMS będą istotnie wzbogacone w danej kategorii, jeśli wartość P skorygowana o FDR wyniesie maksymalnie 0,05.
+   Przygotowane dane zostaną poddane ocenie jakości przy wykorzystaniu programu FastQC. Ewentualne filtrowanie i przycinanie sekwencji o zbyt niskiej jakości zostanie przeprowadzone wykorzystując program fastp. Odczyty zostaną zmapowane do genomu referencyjnego człowieka (GRCh37/hg19) programem BWA. Obce sekwencje usunięte zostaną narzędzeim BlobTools. 
