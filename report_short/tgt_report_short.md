@@ -9,7 +9,7 @@ format:
     toc-depth: 3
     number-sections: true
     colorlinks: true
-    fontsize: 11pt
+    fontsize: 10pt
     geometry:
       - top=25mm
       - bottom=25mm
