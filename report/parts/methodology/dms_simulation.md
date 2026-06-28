@@ -14,4 +14,4 @@ Całość procesu symulacji zanieczyszczenia danych opiera się na wykorzystaniu
 
 ##### Analiza bioinformatyczna
 
-Przygotowane dane zostaną poddane ocenie jakości przy wykorzystaniu programu FastQC. Ewentualne filtrowanie i przycinanie sekwencji o zbyt niskiej jakości zostanie przeprowadzone wykorzystując program fastp. Odczyty zostaną zmapowane do genomu referencyjnego człowieka (GRCh37/hg19) programem BWA. Obce sekwencje usunięte zostaną narzędzeim BlobTools. 
+Przygotowane dane zostaną poddane ocenie jakości przy wykorzystaniu programu FastQC. Ewentualne filtrowanie i przycinanie sekwencji o zbyt niskiej jakości zostanie przeprowadzone wykorzystując program fastp. Odczyty zostaną zmapowane do genomu referencyjnego człowieka (GRCh38) programem BWA. Obce sekwencje usunięte zostaną narzędzeim BlobTools. 
