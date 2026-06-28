@@ -20,7 +20,7 @@ Globalne lub lokalne tempo deaminacji estymuje się na podstawie pozycji CpG.
 
 ##### Pulowanie osobników i rekonstrukcja mapy populacyjnej
 Ponieważ pojedyncze próbki wzbogacane panelem docelowym mają często zbyt niskie indywidualne pokrycie dla samodzielnej rekonstrukcji, binarną mapę stanów buduje się na poziomie całej populacji poprzez pulowanie (łączenie) odczytów wielu osobników [@barouch2024reconstructing]:
-- **Łączenie naiwne** — polega na prostym sumowaniu liczników C i T w każdej pozycji CpG bezpośrednio ze wszystkich osobników wchodzących w skład danej kohorty [@barouch2024reconstructing].
+- **Łączenie naiwne** - polega na prostym sumowaniu liczników C i T w każdej pozycji CpG bezpośrednio ze wszystkich osobników wchodzących w skład danej kohorty [@barouch2024reconstructing].
 - **Mapowanie wskaźnika $\mathrm{C} \rightarrow \mathrm{T}$ na metylację** - realizowane metodą dopasowywania histogramów (*histogram matching*), polegającą na nieliniowym dopasowaniu uzyskanych wskaźników $\mathrm{C} \rightarrow \mathrm{T}$ do referencyjnego histogramu metylacji ludzkiej tkanki kostnej [@mathov2025roam].
 - **Wygładzanie w przesuwnym oknie** - proces rekonstrukcji prowadzi się w zdefiniowanym oknie $W$ obejmującym kolejne pozycje CpG [@mathov2025roam].
 
