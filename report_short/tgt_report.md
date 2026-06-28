@@ -84,9 +84,9 @@ link-citations: true
 
 ***
 
-### Metoda statystyczna do porównywania populacji.
+<!-- ### Metoda statystyczna do porównywania populacji.
 
-{{< include parts/methodology/population_comparison.md >}}
+{{< include parts/methodology/population_comparison.md >}} -->
 
 ## Oczekiwane wyniki
 
