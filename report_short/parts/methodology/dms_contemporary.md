@@ -12,6 +12,7 @@ Rozwiązaniem tego problemu jest włączenie wielu niezależnych par $\text{HG}/
 ##### Identyfikacja miejsc różnicowo zmetylowanych (DMS)
 
 Aby zdefiniować amplitudę zmian i wyodrębnić DMS, stosujemy rygorystyczne kryteria obejmujące skorygowaną wartość $P < 0{,}01$ oraz różnicę w średnim poziomie metylacji między dwiema populacjami ($\Delta\beta$)[@fagny2015epigenomic]. Poziom metylacji w tej analizie określa się jako stosunek intensywności sygnału z sondy metylowanej do intensywności ogólnej [@fagny2015epigenomic].
+Aby zdefiniować amplitudę zmian i wyodrębnić DMS, stosujemy rygorystyczne kryteria obejmujące skorygowaną wartość $P < 0{,}01$ oraz różnicę w średnim poziomie metylacji między dwiema populacjami ($\Delta\beta$)[@fagny2015epigenomic]. Poziom metylacji w tej analizie określa się jako stosunek intensywności sygnału z sondy metylowanej do intensywności ogólnej [@fagny2015epigenomic].
 
 ##### Analiza funkcjonalna i ontologia genów
 
