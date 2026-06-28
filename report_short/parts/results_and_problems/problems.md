@@ -4,7 +4,7 @@ Może dojść do sytuacji, że różnice w DMS pomiędzy współczesnymi ludnoś
 
 #### Różnice tkankowe między materiałem referencyjnym a kopalnym
 
-Pierwszym istotnym problemem jest różnica tkankowa między materiałem referencyjnym a kopalnym. DMS (*differentially methylated site*) identyfikowane we współczesnej krwi byłyby następnie walidowane na DNA pozyskanym z kości, podczas whas wzorce metylacji są silnie zależne od typu tkanki. Aby ograniczyć to ryzyko, analizę należy zawęzić do pozycji względnie stabilnych międzytkankowo, w tym potencjalnie do metastabilnych epialleli.
+Pierwszym istotnym problemem jest różnica tkankowa między materiałem referencyjnym a kopalnym. DMS (*differentially methylated site*) identyfikowane we współczesnej krwi byłyby następnie walidowane na DNA pozyskanym z kości, podczas gdy wzorce metylacji są silnie zależne od typu tkanki. Aby ograniczyć to ryzyko, analizę należy zawęzić do pozycji względnie stabilnych międzytkankowo, w tym potencjalnie do metastabilnych epialleli.
 
 <!-- KOMENTARZ: 
 To jest dobra uwaga-->
@@ -36,13 +36,7 @@ Czwarta grupa ograniczeń wynika ze specyfiki starożytnego DNA. Deaminacja cyto
 Kolejnym problemem jest kontaminacja współczesnym DNA, która może zaniżać lub zniekształcać rekonstruowany sygnał metylacji. Konieczna jest zatem walidacja profilu uszkodzeń, na przykład z użyciem `mapDamage`, oraz zastosowanie filtrów kontaminacji dostosowanych do typu materiału i jakości biblioteki.
 
 <!-- KOMENTARZ: To rozumiem że uwzględnimy w metodologii żeby do tego nie doszło - można to przenieść -->
-
-#### Specyficzność typów komórek
-
-Należy także uwzględnić specyficzność typów komórek. W przypadku krwi proporcje komórek immunologicznych silnie wpływają na profil metylacji, natomiast w kości sygnał może zależeć od składu komórkowego tkanki i stopnia remodelingu. Bez korekty składu komórkowego istnieje ryzyko, że wykryte różnice będą odzwierciedlały zmienność tkankową, a nie tryb życia.
-
 <!-- KOMENTARZ: Tego nie rozumiem, mówiliśmy już kilkakrotnie że będziemy to pobierać z kości bo inaczej nie ma to sensu -->
-
 
 #### Wymienność etykiet w testach permutacyjnych
 
@@ -54,4 +48,4 @@ Dodatkowym problemem jest wymienność etykiet w testach permutacyjnych. Jeżeli
 
 Wreszcie, metoda nie dysponuje niezależnym złotym standardem. Status HG/AGR populacji kopalnych pochodzi z interpretation archeologicznej, czyli z tego samego typu informacji, który metoda miałaby częściowo uzupełniać lub weryfikować. Rodzi to ryzyko cyrkularności. Dlatego klasyfikacja epigenetyczna powinna być traktowana nie jako samodzielny dowód trybu życia, lecz jako dodatkowa warstwa informacji integrowana z archeologią, izotopami stabilnymi, paleogenomiką oraz kontekstem środowiskowym.
 
-<!-- NIe rozumiem co tu jest napisane, jeżeli chodzi o traktotwanie to jest napisane we wstępie o tym -->
+<!-- Nie rozumiem co tu jest napisane, jeżeli chodzi o traktotwanie to jest napisane we wstępie o tym -->
